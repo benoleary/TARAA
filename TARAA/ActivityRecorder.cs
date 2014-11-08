@@ -95,16 +95,102 @@ namespace TARAA
       totalOnTime = 0.0;
     }
 
-    public string StringForDataLine()
+    public string StringForDataLine( int numberOfIntervals,
+                                     double intervalLength )
     {
-      return ( "\"" + durationLabel.Text
-               + "\";\"" + countLabel.Text + "\"" );
+      StringBuilder lineBuilder
+      = new StringBuilder( "\"" + durationLabel.Text + "\";\""
+                                + countLabel.Text + "\"" );
+      if ( numberOfIntervals > 1 )
+      {
+        double[] intervalDurations = new double[ numberOfIntervals ];
+        int[] intervalCounts = new int[ numberOfIntervals ];
+        for ( int intervalIndex = 0;
+              intervalIndex < numberOfIntervals;
+              ++intervalIndex )
+        {
+          intervalDurations[ intervalIndex ] = 0.0;
+          intervalCounts[ intervalIndex ] = 0;
+        }
+
+        foreach ( var onAndOffTime in onAndOffTimes )
+        {
+          int startIndex = (int)( onAndOffTime.Item1 / intervalLength );
+          double endTime = onAndOffTime.Item2;
+          int endIndex = (int)( endTime / intervalLength );
+          if ( endIndex >= numberOfIntervals )
+          {
+            endIndex = ( numberOfIntervals - 1 );
+            endTime = ( numberOfIntervals * intervalLength );
+          }
+
+          // For counting purposes, it happens in the interval when it starts
+          // (so corresponding to key presses rather than releases).
+          intervalCounts[ startIndex ] += 1;
+
+          // If startIndex is greater than endIndex, something screwed up!
+          if ( startIndex == endIndex )
+          {
+            // If the activity was entirely in a single interval, we add its
+            // full duration to that interval.
+            intervalDurations[ startIndex ]
+            += ( endTime - onAndOffTime.Item1 );
+          }
+          else
+          {
+            // If the activity was spread over multiple intervals, we
+            // effectively break the activity into multiple segments:
+            // a segment from the start time until the time of the end of the
+            // starting interval,
+            // 0 or more segments corresponding to entire intervals,
+            // and a segment from the time of the ending interval to the
+            // activity end time.
+            intervalDurations[ startIndex ]
+            += ( ( intervalLength * ( startIndex + 1 ) )
+                 - onAndOffTime.Item1 );
+            for ( int intervalIndex = ( startIndex + 1 );
+                  intervalIndex < endIndex;
+                  ++intervalIndex )
+            {
+              intervalDurations[ intervalIndex ] += intervalLength;
+            }
+            intervalDurations[ endIndex ]
+            += ( endTime - ( intervalLength * endIndex ) );
+          }
+        }
+
+        for ( int intervalIndex = 0;
+              intervalIndex < numberOfIntervals;
+              ++intervalIndex )
+        {
+          lineBuilder.Append( ";\""
+                     + intervalDurations[ intervalIndex ].ToString()  + "\";\""
+                     + intervalCounts[ intervalIndex ].ToString() + "\"" );
+        }
+      }
+      return lineBuilder.ToString();
     }
 
-    public string StringForHeader()
+    public string StringForHeader( int numberOfIntervals )
     {
-      return ( "\"" + activityName.Text + ": total duration in seconds\";\""
-               + activityName.Text + ": total count\"" );
+      StringBuilder headerBuilder
+      = new StringBuilder(
+                  "\"" + activityName.Text + ": total duration in seconds\";\""
+                       + activityName.Text + ": total count\"" );
+      if ( numberOfIntervals > 1 )
+      {
+        for ( int intervalIndex = 1;
+              intervalIndex <= numberOfIntervals;
+              ++intervalIndex )
+        {
+          headerBuilder.Append( ";\""
+             + activityName.Text + " interval " + intervalIndex.ToString()
+             + ": interval duration in seconds\";\""
+             + activityName.Text + " interval " + intervalIndex.ToString()
+             + ": interval count\"" );
+			  }
+      }
+      return headerBuilder.ToString();
     }
 
     public void ResetKeyAndDescription()

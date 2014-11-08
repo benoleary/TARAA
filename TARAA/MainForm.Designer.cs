@@ -107,8 +107,8 @@
       this.label2 = new System.Windows.Forms.Label();
       this.leaveSetupOrStartRecordingButton = new System.Windows.Forms.Button();
       this.totalTimerLabel = new System.Windows.Forms.Label();
-      this.totalTimerInput = new System.Windows.Forms.TextBox();
-      this.label11 = new System.Windows.Forms.Label();
+      this.intervalSecondsInput = new System.Windows.Forms.TextBox();
+      this.numberOfIntervalsLabel = new System.Windows.Forms.Label();
       this.durationProgressBar = new System.Windows.Forms.ProgressBar();
       this.nextAnimalButton = new System.Windows.Forms.Button();
       this.additionalCommentsRichTextBox = new System.Windows.Forms.RichTextBox();
@@ -128,10 +128,17 @@
       this.clearSettingsButton = new System.Windows.Forms.Button();
       this.pauseButton = new System.Windows.Forms.Button();
       this.copyrightNotice = new System.Windows.Forms.Label();
+      this.numberOfIntervalsInput = new System.Windows.Forms.NumericUpDown();
+      this.label16 = new System.Windows.Forms.Label();
+      this.label17 = new System.Windows.Forms.Label();
+      this.label11 = new System.Windows.Forms.Label();
+      this.totalDurationLabel = new System.Windows.Forms.Label();
+      this.label18 = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
       this.splitContainer1.Panel2.SuspendLayout();
       this.splitContainer1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numberOfIntervalsInput)).BeginInit();
       this.SuspendLayout();
       // 
       // splitContainer1
@@ -934,7 +941,7 @@
       // 
       // leaveSetupOrStartRecordingButton
       // 
-      this.leaveSetupOrStartRecordingButton.Location = new System.Drawing.Point(12, 394);
+      this.leaveSetupOrStartRecordingButton.Location = new System.Drawing.Point(15, 394);
       this.leaveSetupOrStartRecordingButton.Name = "leaveSetupOrStartRecordingButton";
       this.leaveSetupOrStartRecordingButton.Size = new System.Drawing.Size(158, 53);
       this.leaveSetupOrStartRecordingButton.TabIndex = 1;
@@ -945,30 +952,31 @@
       // totalTimerLabel
       // 
       this.totalTimerLabel.AutoSize = true;
-      this.totalTimerLabel.Location = new System.Drawing.Point(20, 330);
+      this.totalTimerLabel.Location = new System.Drawing.Point(263, 303);
       this.totalTimerLabel.Name = "totalTimerLabel";
       this.totalTimerLabel.Size = new System.Drawing.Size(13, 13);
       this.totalTimerLabel.TabIndex = 3;
       this.totalTimerLabel.Text = "0";
       this.totalTimerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
       // 
-      // totalTimerInput
+      // intervalSecondsInput
       // 
-      this.totalTimerInput.Location = new System.Drawing.Point(176, 327);
-      this.totalTimerInput.Name = "totalTimerInput";
-      this.totalTimerInput.Size = new System.Drawing.Size(49, 20);
-      this.totalTimerInput.TabIndex = 4;
-      this.totalTimerInput.Text = "10";
-      this.totalTimerInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+      this.intervalSecondsInput.Location = new System.Drawing.Point(172, 327);
+      this.intervalSecondsInput.Name = "intervalSecondsInput";
+      this.intervalSecondsInput.Size = new System.Drawing.Size(36, 20);
+      this.intervalSecondsInput.TabIndex = 4;
+      this.intervalSecondsInput.Text = "10";
+      this.intervalSecondsInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+      this.intervalSecondsInput.TextChanged += new System.EventHandler(this.intervalSecondsInput_TextChanged);
       // 
-      // label11
+      // numberOfIntervalsLabel
       // 
-      this.label11.AutoSize = true;
-      this.label11.Location = new System.Drawing.Point(50, 330);
-      this.label11.Name = "label11";
-      this.label11.Size = new System.Drawing.Size(120, 13);
-      this.label11.TabIndex = 5;
-      this.label11.Text = "seconds elapsed out of ";
+      this.numberOfIntervalsLabel.AutoSize = true;
+      this.numberOfIntervalsLabel.Location = new System.Drawing.Point(69, 330);
+      this.numberOfIntervalsLabel.Name = "numberOfIntervalsLabel";
+      this.numberOfIntervalsLabel.Size = new System.Drawing.Size(102, 13);
+      this.numberOfIntervalsLabel.TabIndex = 5;
+      this.numberOfIntervalsLabel.Text = "intervals, of duration";
       // 
       // durationProgressBar
       // 
@@ -982,7 +990,7 @@
       // 
       // nextAnimalButton
       // 
-      this.nextAnimalButton.Location = new System.Drawing.Point(344, 395);
+      this.nextAnimalButton.Location = new System.Drawing.Point(344, 409);
       this.nextAnimalButton.Name = "nextAnimalButton";
       this.nextAnimalButton.Size = new System.Drawing.Size(84, 38);
       this.nextAnimalButton.TabIndex = 7;
@@ -992,9 +1000,9 @@
       // 
       // additionalCommentsRichTextBox
       // 
-      this.additionalCommentsRichTextBox.Location = new System.Drawing.Point(431, 395);
+      this.additionalCommentsRichTextBox.Location = new System.Drawing.Point(431, 383);
       this.additionalCommentsRichTextBox.Name = "additionalCommentsRichTextBox";
-      this.additionalCommentsRichTextBox.Size = new System.Drawing.Size(119, 79);
+      this.additionalCommentsRichTextBox.Size = new System.Drawing.Size(119, 102);
       this.additionalCommentsRichTextBox.TabIndex = 8;
       this.additionalCommentsRichTextBox.Text = "No additional comments";
       // 
@@ -1022,7 +1030,7 @@
       // 
       // loadSettingsButton
       // 
-      this.loadSettingsButton.Location = new System.Drawing.Point(12, 453);
+      this.loadSettingsButton.Location = new System.Drawing.Point(15, 453);
       this.loadSettingsButton.Name = "loadSettingsButton";
       this.loadSettingsButton.Size = new System.Drawing.Size(81, 21);
       this.loadSettingsButton.TabIndex = 10;
@@ -1032,17 +1040,17 @@
       // 
       // experimenterNameTextBox
       // 
-      this.experimenterNameTextBox.Location = new System.Drawing.Point(340, 327);
+      this.experimenterNameTextBox.Location = new System.Drawing.Point(463, 328);
       this.experimenterNameTextBox.Name = "experimenterNameTextBox";
-      this.experimenterNameTextBox.Size = new System.Drawing.Size(210, 20);
+      this.experimenterNameTextBox.Size = new System.Drawing.Size(87, 20);
       this.experimenterNameTextBox.TabIndex = 11;
-      this.experimenterNameTextBox.Text = "Experimenter name";
+      this.experimenterNameTextBox.Text = "Anonymous";
       // 
       // specificStartKeyRadioButton
       // 
       this.specificStartKeyRadioButton.AutoSize = true;
       this.specificStartKeyRadioButton.Checked = true;
-      this.specificStartKeyRadioButton.Location = new System.Drawing.Point(19, 350);
+      this.specificStartKeyRadioButton.Location = new System.Drawing.Point(19, 354);
       this.specificStartKeyRadioButton.Name = "specificStartKeyRadioButton";
       this.specificStartKeyRadioButton.Size = new System.Drawing.Size(303, 17);
       this.specificStartKeyRadioButton.TabIndex = 12;
@@ -1064,16 +1072,16 @@
       // 
       // animalNameTextBox
       // 
-      this.animalNameTextBox.Location = new System.Drawing.Point(413, 350);
+      this.animalNameTextBox.Location = new System.Drawing.Point(344, 383);
       this.animalNameTextBox.Name = "animalNameTextBox";
-      this.animalNameTextBox.Size = new System.Drawing.Size(136, 20);
+      this.animalNameTextBox.Size = new System.Drawing.Size(78, 20);
       this.animalNameTextBox.TabIndex = 14;
       this.animalNameTextBox.Text = "Animal 01";
       // 
       // label13
       // 
       this.label13.AutoSize = true;
-      this.label13.Location = new System.Drawing.Point(337, 354);
+      this.label13.Location = new System.Drawing.Point(341, 367);
       this.label13.Name = "label13";
       this.label13.Size = new System.Drawing.Size(70, 13);
       this.label13.TabIndex = 15;
@@ -1082,7 +1090,7 @@
       // recordsFileLabel
       // 
       this.recordsFileLabel.AutoSize = true;
-      this.recordsFileLabel.Location = new System.Drawing.Point(16, 477);
+      this.recordsFileLabel.Location = new System.Drawing.Point(16, 494);
       this.recordsFileLabel.Name = "recordsFileLabel";
       this.recordsFileLabel.Size = new System.Drawing.Size(101, 13);
       this.recordsFileLabel.TabIndex = 16;
@@ -1090,7 +1098,7 @@
       // 
       // discardAnimalButton
       // 
-      this.discardAnimalButton.Location = new System.Drawing.Point(344, 440);
+      this.discardAnimalButton.Location = new System.Drawing.Point(344, 453);
       this.discardAnimalButton.Name = "discardAnimalButton";
       this.discardAnimalButton.Size = new System.Drawing.Size(84, 34);
       this.discardAnimalButton.TabIndex = 17;
@@ -1107,7 +1115,7 @@
       // label14
       // 
       this.label14.AutoSize = true;
-      this.label14.Location = new System.Drawing.Point(356, 373);
+      this.label14.Location = new System.Drawing.Point(428, 367);
       this.label14.Name = "label14";
       this.label14.Size = new System.Drawing.Size(107, 13);
       this.label14.TabIndex = 18;
@@ -1115,7 +1123,7 @@
       // 
       // clearSettingsButton
       // 
-      this.clearSettingsButton.Location = new System.Drawing.Point(184, 453);
+      this.clearSettingsButton.Location = new System.Drawing.Point(186, 453);
       this.clearSettingsButton.Name = "clearSettingsButton";
       this.clearSettingsButton.Size = new System.Drawing.Size(78, 21);
       this.clearSettingsButton.TabIndex = 19;
@@ -1125,7 +1133,7 @@
       // 
       // pauseButton
       // 
-      this.pauseButton.Location = new System.Drawing.Point(176, 395);
+      this.pauseButton.Location = new System.Drawing.Point(175, 400);
       this.pauseButton.Name = "pauseButton";
       this.pauseButton.Size = new System.Drawing.Size(162, 40);
       this.pauseButton.TabIndex = 20;
@@ -1142,11 +1150,75 @@
       this.copyrightNotice.TabIndex = 21;
       this.copyrightNotice.Text = "Copyright Ben O\'Leary, Aet Alttoa 2014";
       // 
+      // numberOfIntervalsInput
+      // 
+      this.numberOfIntervalsInput.Location = new System.Drawing.Point(19, 328);
+      this.numberOfIntervalsInput.Name = "numberOfIntervalsInput";
+      this.numberOfIntervalsInput.Size = new System.Drawing.Size(44, 20);
+      this.numberOfIntervalsInput.TabIndex = 22;
+      this.numberOfIntervalsInput.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.numberOfIntervalsInput.ValueChanged += new System.EventHandler(this.numberOfIntervalsInput_ValueChanged);
+      // 
+      // label16
+      // 
+      this.label16.AutoSize = true;
+      this.label16.Location = new System.Drawing.Point(214, 330);
+      this.label16.Name = "label16";
+      this.label16.Size = new System.Drawing.Size(50, 13);
+      this.label16.TabIndex = 23;
+      this.label16.Text = "seconds:";
+      // 
+      // label17
+      // 
+      this.label17.AutoSize = true;
+      this.label17.Location = new System.Drawing.Point(282, 330);
+      this.label17.Name = "label17";
+      this.label17.Size = new System.Drawing.Size(73, 13);
+      this.label17.TabIndex = 24;
+      this.label17.Text = "seconds total.";
+      // 
+      // label11
+      // 
+      this.label11.AutoSize = true;
+      this.label11.Location = new System.Drawing.Point(282, 303);
+      this.label11.Name = "label11";
+      this.label11.Size = new System.Drawing.Size(87, 13);
+      this.label11.TabIndex = 25;
+      this.label11.Text = "seconds elapsed";
+      // 
+      // totalDurationLabel
+      // 
+      this.totalDurationLabel.AutoSize = true;
+      this.totalDurationLabel.Location = new System.Drawing.Point(270, 330);
+      this.totalDurationLabel.Name = "totalDurationLabel";
+      this.totalDurationLabel.Size = new System.Drawing.Size(13, 13);
+      this.totalDurationLabel.TabIndex = 26;
+      this.totalDurationLabel.Text = "0";
+      // 
+      // label18
+      // 
+      this.label18.AutoSize = true;
+      this.label18.Location = new System.Drawing.Point(358, 330);
+      this.label18.Name = "label18";
+      this.label18.Size = new System.Drawing.Size(100, 13);
+      this.label18.TabIndex = 27;
+      this.label18.Text = "Experimenter name:";
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(562, 516);
+      this.Controls.Add(this.label18);
+      this.Controls.Add(this.totalDurationLabel);
+      this.Controls.Add(this.label11);
+      this.Controls.Add(this.label17);
+      this.Controls.Add(this.label16);
+      this.Controls.Add(this.numberOfIntervalsInput);
       this.Controls.Add(this.copyrightNotice);
       this.Controls.Add(this.pauseButton);
       this.Controls.Add(this.clearSettingsButton);
@@ -1162,12 +1234,12 @@
       this.Controls.Add(this.saveSettingsButton);
       this.Controls.Add(this.additionalCommentsRichTextBox);
       this.Controls.Add(this.nextAnimalButton);
-      this.Controls.Add(this.durationProgressBar);
-      this.Controls.Add(this.label11);
-      this.Controls.Add(this.totalTimerInput);
+      this.Controls.Add(this.numberOfIntervalsLabel);
+      this.Controls.Add(this.intervalSecondsInput);
       this.Controls.Add(this.totalTimerLabel);
       this.Controls.Add(this.leaveSetupOrStartRecordingButton);
       this.Controls.Add(this.splitContainer1);
+      this.Controls.Add(this.durationProgressBar);
       this.KeyPreview = true;
       this.Name = "MainForm";
       this.Text = "TARAA - Timing Assistant for Recording Animal Activity";
@@ -1177,6 +1249,7 @@
       this.splitContainer1.Panel2.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
       this.splitContainer1.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.numberOfIntervalsInput)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -1200,8 +1273,8 @@
     private System.Windows.Forms.Button rightButtonOne;
     private System.Windows.Forms.Button leaveSetupOrStartRecordingButton;
     private System.Windows.Forms.Label totalTimerLabel;
-    private System.Windows.Forms.TextBox totalTimerInput;
-    private System.Windows.Forms.Label label11;
+    private System.Windows.Forms.TextBox intervalSecondsInput;
+    private System.Windows.Forms.Label numberOfIntervalsLabel;
     private System.Windows.Forms.ProgressBar durationProgressBar;
     private System.Windows.Forms.Label rightCountTwo;
     private System.Windows.Forms.TextBox rightDescriptionTwo;
@@ -1284,6 +1357,12 @@
     private System.Windows.Forms.Label label15;
     private System.Windows.Forms.Button pauseButton;
     private System.Windows.Forms.Label copyrightNotice;
+    private System.Windows.Forms.NumericUpDown numberOfIntervalsInput;
+    private System.Windows.Forms.Label label16;
+    private System.Windows.Forms.Label label17;
+    private System.Windows.Forms.Label label11;
+    private System.Windows.Forms.Label totalDurationLabel;
+    private System.Windows.Forms.Label label18;
   }
 }
 

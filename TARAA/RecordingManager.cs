@@ -20,17 +20,9 @@ namespace TARAA
     {
       this.activitiesTimer = activitiesTimer;
       this.saveSettingsButton = saveSettingsButton;
-      allowedDuration = 0.0;
-      try
-      {
-        allowedDuration = Convert.ToDouble( totalTimerInput.Text );
-      }
-      catch
-      {
-        MessageBox.Show( "Unable to interpret \"" + totalTimerInput.Text
-                         + "\" as a number of seconds." );
-        allowedDuration = 0.0;
-      }
+      numberOfIntervals = Convert.ToInt32( numberOfIntervalsInput.Value );
+      intervalLength = ModeManager.IntervalDuration( intervalSecondsInput );
+      allowedTotalDuration = ( numberOfIntervals * intervalLength );
       recordingActivities = false;
       readyToStartRecording = true;
       this.totalTimerLabel = totalTimerLabel;
@@ -52,7 +44,7 @@ namespace TARAA
           activityRecorder.LockActivityName();
           if ( activityRecorder.ActivationKey != Keys.None )
           {
-            lineToWrite += ( ";" + activityRecorder.StringForHeader() );
+            lineToWrite += ( ";" + activityRecorder.StringForHeader( numberOfIntervals ) );
           }
         }
         lineToWrite += ( ";\"Additional comments\"" );
@@ -63,7 +55,9 @@ namespace TARAA
     }
 
     private Button saveSettingsButton;
-    private double allowedDuration;
+    private int numberOfIntervals;
+    private double intervalLength;
+    private double allowedTotalDuration;
     private bool recordingActivities;
     private bool readyToStartRecording;
     private Label totalTimerLabel;
@@ -189,13 +183,13 @@ namespace TARAA
       recordingActivities = true;
       activitiesTimer.Reset();
       activitiesTimer.Start();
-      while ( activitiesTimer.Elapsed.TotalSeconds <= allowedDuration )
+      while ( activitiesTimer.Elapsed.TotalSeconds <= allowedTotalDuration )
       {
         totalTimerLabel.Text
           = activitiesTimer.Elapsed.TotalSeconds.ToString( "F" );
         durationProgressBar.Value
           = (int)( ( 100.0 * activitiesTimer.Elapsed.TotalSeconds )
-                   / allowedDuration );
+                   / allowedTotalDuration );
         foreach ( ActivityRecorder activityRecorder in activityRecorders )
         {
           activityRecorder.UpdateTime();
@@ -264,7 +258,9 @@ namespace TARAA
         {
           if ( activityRecorder.ActivationKey != Keys.None )
           {
-            lineToWrite += ( ";" + activityRecorder.StringForDataLine() );
+            lineToWrite
+            += ( ";" + activityRecorder.StringForDataLine( numberOfIntervals,
+                                                           intervalLength ) );
           }
         }
         lineToWrite += ( ";\"" + additionalComments.Text + "\"" );

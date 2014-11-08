@@ -13,7 +13,17 @@ namespace TARAA
   {
     public MainForm()
     {
+      // TODO:
+      // 1) Fix focus problem - DONE!
+      // 2) Fix cancel on choose file - DONE!
+      // 3) Add time intervals - DONE!
+      // 4) Allow installation folder to be chosen
+      // 1) & 2) can probably be solved together with the
+      // "in setup mode / in timing mode" button initially being a
+      // "select file" button.
       InitializeComponent();
+      numberOfIntervals = Convert.ToInt32( numberOfIntervalsInput.Value );
+      intervalDuration = ModeManager.IntervalDuration( intervalSecondsInput );
 
       activitiesTimer = new System.Diagnostics.Stopwatch();
       isPaused = false;
@@ -158,22 +168,10 @@ namespace TARAA
       specificStartKeyRadioButton.Text = ( "Start recording only with "
                                            + startRecordingKey.ToString()
                                       + " (starts 1st activity in list too)" );
+      recordsFileLabel.Text = ( "No record file chosen!" );
       leaveSetupOrStartRecordingButton.Text
-        = ( "In setup mode.\nClick here to enter timing/counting mode." );
+        = ( "Click here to choose a file\nto record the data." );
       recordsFile = "none";
-
-      while ( recordsFile == "none" )
-      {
-        DialogResult dialogResult = saveRecordFileDialog.ShowDialog();
-        if ( dialogResult == DialogResult.OK )
-        {
-          recordsFile = saveRecordFileDialog.FileName;
-        }
-      }
-      recordsFileLabel.Text = ( "Recording to \"" + recordsFile + "\"" );
-      this.TopMost = true;
-      this.TopMost = false;
-      this.Activate();
 
       // The form begins in setup mode.
       inSetupMode = true;
@@ -182,7 +180,8 @@ namespace TARAA
                                        nextAnimalButton,
                                        discardAnimalButton,
                                        pauseButton,
-                                       totalTimerInput,
+                                       numberOfIntervalsInput,
+                                       intervalSecondsInput,
                                        experimenterNameTextBox,
                                        animalNameTextBox,
                                        additionalCommentsRichTextBox,
@@ -205,6 +204,8 @@ namespace TARAA
     private bool inSetupMode;
     private bool isPaused;
     private Keys startRecordingKey;
+    private int numberOfIntervals;
+    private double intervalDuration;
 
     private void MainForm_KeyDown( object sender, KeyEventArgs keyEventArgs )
     {
@@ -237,9 +238,20 @@ namespace TARAA
     private void leaveSetupOrStartRecordingButton_Click( object sender,
                                                          EventArgs e )
     {
-      if ( inSetupMode )
+      if ( recordsFile == "none" )
       {
-        totalTimerInput.Enabled = false;
+        DialogResult dialogResult = saveRecordFileDialog.ShowDialog();
+        if ( dialogResult == DialogResult.OK )
+        {
+          recordsFile = saveRecordFileDialog.FileName;
+          recordsFileLabel.Text = ( "Recording to \"" + recordsFile + "\"" );
+        leaveSetupOrStartRecordingButton.Text
+          = ( " In setup mode.\nClick to enter timing/counting mode." );
+        }
+      }
+      else if ( inSetupMode )
+      {
+        intervalSecondsInput.Enabled = false;
         experimenterNameTextBox.Enabled = false;
         leaveSetupOrStartRecordingButton.Text
           = ( "In timing/counting mode.\n"
@@ -423,6 +435,29 @@ namespace TARAA
         activitiesTimer.Stop();
         pauseButton.Text = "Click to unpause";
       }
+    }
+
+    private void numberOfIntervalsInput_ValueChanged( object sender,
+                                                      EventArgs e )
+    {
+      if ( numberOfIntervalsInput.Value == 1 )
+      {
+        numberOfIntervalsLabel.Text = "interval, of duration";
+      }
+      else
+      {
+        numberOfIntervalsLabel.Text = "intervals, of duration";
+      }
+      numberOfIntervals = Convert.ToInt32( numberOfIntervalsInput.Value );
+      totalDurationLabel.Text
+      = ( numberOfIntervals * intervalDuration ).ToString();
+    }
+
+    private void intervalSecondsInput_TextChanged( object sender, EventArgs e )
+    {
+      intervalDuration = ModeManager.IntervalDuration( intervalSecondsInput );
+      totalDurationLabel.Text
+      = ( numberOfIntervals * intervalDuration ).ToString();
     }
 
   }

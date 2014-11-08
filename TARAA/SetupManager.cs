@@ -17,7 +17,8 @@ namespace TARAA
                          Button saveRecordButton,
                          Button discardRecordButton,
                          Button pauseButton,
-                         TextBox totalTimerInput,
+                         NumericUpDown numberOfIntervalsInput,
+                         TextBox intervalSecondsInput,
                          TextBox experimenterName,
                          TextBox animalName,
                          RichTextBox additionalComments,
@@ -28,7 +29,8 @@ namespace TARAA
               saveRecordButton,
               discardRecordButton,
               pauseButton,
-              totalTimerInput,
+              numberOfIntervalsInput,
+              intervalSecondsInput,
               experimenterName,
               animalName,
               additionalComments,
@@ -93,7 +95,8 @@ namespace TARAA
           streamWriter.WriteLine(
             activityRecorders[ whichIndex ].ActivityName );
         }
-        streamWriter.WriteLine( totalTimerInput.Text );
+        streamWriter.WriteLine( numberOfIntervalsInput.Value.ToString() );
+        streamWriter.WriteLine( intervalSecondsInput.Text );
         streamWriter.WriteLine( experimenterName.Text );
         if ( anyStartKeyRadioButton.Checked )
         {
@@ -165,7 +168,27 @@ namespace TARAA
         }
         lineRead = streamReader.ReadLine();
         ++lineCount;
-        totalTimerInput.Text = lineRead;
+        decimal intervalSeconds = 0.0M;
+        try
+        {
+          intervalSeconds = Convert.ToDecimal( lineRead );
+        }
+        catch
+        {
+          MessageBox.Show( "Unable to interpret \"" + lineRead
+                           + "\" as a number of seconds for each interval." );
+          intervalSeconds = 0.0M;
+        }
+        numberOfIntervalsInput.Value = intervalSeconds;
+        if ( streamReader.EndOfStream )
+        {
+          MessageBox.Show( "Uhoh. Settings file didn't have the right number"
+                           + " of lines (read " + lineCount.ToString()
+                           + "lines). Carrying on regardless." );
+          return;
+        }
+        lineRead = streamReader.ReadLine();
+        intervalSecondsInput.Text = lineRead;
         if ( streamReader.EndOfStream )
         {
           MessageBox.Show( "Uhoh. Settings file didn't have the right number"

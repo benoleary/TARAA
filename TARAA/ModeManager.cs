@@ -18,12 +18,29 @@ namespace TARAA
       clearSettings
     }
 
+    public static double IntervalDuration( TextBox intervalSecondsInput )
+    {
+      double intervalSeconds = 0.0;
+      try
+      {
+        intervalSeconds = Convert.ToDouble( intervalSecondsInput.Text );
+      }
+      catch
+      {
+        MessageBox.Show( "Unable to interpret \"" + intervalSecondsInput.Text
+                         + "\" as a number of seconds for each interval." );
+        intervalSeconds = 0.0;
+      }
+      return intervalSeconds;
+    }
+
     public ModeManager( List<ActivityRecorder> activityRecorders,
                         Button leaveSetupOrStartRecordingButton,
                         Button saveRecordButton,
                         Button discardRecordButton,
                         Button pauseButton,
-                        TextBox totalTimerInput,
+                        NumericUpDown numberOfIntervalsInput,
+                        TextBox intervalSecondsInput,
                         TextBox experimenterName,
                         TextBox animalName,
                         RichTextBox additionalComments,
@@ -35,7 +52,8 @@ namespace TARAA
       this.saveRecordButton = saveRecordButton;
       this.discardRecordButton = discardRecordButton;
       this.pauseButton = pauseButton;
-      this.totalTimerInput = totalTimerInput;
+      this.numberOfIntervalsInput = numberOfIntervalsInput;
+      this.intervalSecondsInput = intervalSecondsInput;
       this.experimenterName = experimenterName;
       this.animalName = animalName;
       this.additionalComments = additionalComments;
@@ -51,7 +69,8 @@ namespace TARAA
       this.saveRecordButton = copySource.saveRecordButton;
       this.discardRecordButton = copySource.discardRecordButton;
       this.pauseButton = copySource.pauseButton;
-      this.totalTimerInput = copySource.totalTimerInput;
+      this.numberOfIntervalsInput = copySource.numberOfIntervalsInput;
+      this.intervalSecondsInput = copySource.intervalSecondsInput;
       this.experimenterName = copySource.experimenterName;
       this.animalName = copySource.animalName;
       this.additionalComments = copySource.additionalComments;
@@ -65,7 +84,8 @@ namespace TARAA
     protected Button saveRecordButton;
     protected Button discardRecordButton;
     protected Button pauseButton;
-    protected TextBox totalTimerInput;
+    protected NumericUpDown numberOfIntervalsInput;
+    protected TextBox intervalSecondsInput;
     protected TextBox experimenterName;
     protected TextBox animalName;
     protected RichTextBox additionalComments;
