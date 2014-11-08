@@ -23,6 +23,8 @@ namespace TARAA
       numberOfIntervals = Convert.ToInt32( numberOfIntervalsInput.Value );
       intervalLength = ModeManager.IntervalDuration( intervalSecondsInput );
       allowedTotalDuration = ( numberOfIntervals * intervalLength );
+      numberOfIntervalsInput.Enabled = false;
+      intervalSecondsInput.Enabled = false;
       recordingActivities = false;
       readyToStartRecording = true;
       this.totalTimerLabel = totalTimerLabel;
@@ -52,6 +54,7 @@ namespace TARAA
       }
       this.startRecordingKey = startRecordingKey;
       ResetRecords();
+      discardRecordButton.Enabled = true;
     }
 
     private Button saveSettingsButton;
@@ -70,18 +73,17 @@ namespace TARAA
     public override void RespondToUtilityButtonClick(
       UtilityButtons clickedUtility )
     {
-      // The utility buttons should only do something if not recording.
-      // Also, saving/discarding the record should only be active after a
+      // Most utility buttons should only do something if not recording.
+      // Also, saving the record should only be active after a
       // timing/counting run (when readyToStartRecording is false).
-      if ( recordingActivities )
-      {
-        return;
-      }
       switch ( clickedUtility )
       {
         case UtilityButtons.startRecording:
           {
-            TimeActivities();
+            if ( !recordingActivities )
+            {
+              TimeActivities();
+            }
           }
           break;
         case UtilityButtons.nextAnimal:
@@ -95,17 +97,14 @@ namespace TARAA
           break;
         case UtilityButtons.discardAnimal:
           {
-            if ( !readyToStartRecording )
-            {
-              DialogResult dialogResult
-                = MessageBox.Show( ( "Are you sure that you want to discard"
-                                     + " this recording?" ),
+            DialogResult dialogResult
+              = MessageBox.Show( ( "Are you sure that you want to discard"
+                                   + " this recording?" ),
                                   "Confirm that recording should be discarded",
-                                   MessageBoxButtons.YesNo );
-              if ( dialogResult == DialogResult.Yes )
-              {
-                ResetRecords();
-              }
+                                 MessageBoxButtons.YesNo );
+            if ( dialogResult == DialogResult.Yes )
+            {
+              ResetRecords();
             }
           }
           break;
@@ -133,6 +132,7 @@ namespace TARAA
         }
         else if ( keyDown == startRecordingKey )
         {
+          activityRecorders.First().RespondToKeyDown();
           TimeActivities();
         }
       }
@@ -174,11 +174,12 @@ namespace TARAA
 
     private void TimeActivities()
     {
-      pauseButton.Enabled = true;
+      //pauseButton.Enabled = true;
       saveSettingsButton.Enabled = false;
       leaveSetupOrStartRecordingButton.Text
         = "Currently timing/counting\nor saving/discarding record.";
       leaveSetupOrStartRecordingButton.Enabled = false;
+      discardRecordButton.Enabled = true;
       readyToStartRecording = false;
       recordingActivities = true;
       activitiesTimer.Reset();
@@ -186,7 +187,8 @@ namespace TARAA
       while ( activitiesTimer.Elapsed.TotalSeconds <= allowedTotalDuration )
       {
         totalTimerLabel.Text
-          = activitiesTimer.Elapsed.TotalSeconds.ToString( "F" );
+          = ( activitiesTimer.Elapsed.TotalSeconds.ToString( "F" )
+              + " seconds elapsed" );
         durationProgressBar.Value
           = (int)( ( 100.0 * activitiesTimer.Elapsed.TotalSeconds )
                    / allowedTotalDuration );
@@ -203,13 +205,12 @@ namespace TARAA
         activityRecorder.TurnOff();
       }
       recordingActivities = false;
-      pauseButton.Enabled = false;
+      // pauseButton.Enabled = false;
       animalName.Enabled = true;
       animalName.Text = ( "Animal " + animalIndex.ToString( "D2" ) );
       additionalComments.Enabled = true;
       additionalComments.Text = "No additional comments";
       saveRecordButton.Enabled = true;
-      discardRecordButton.Enabled = true;
       saveSettingsButton.Enabled = true;
     }
 

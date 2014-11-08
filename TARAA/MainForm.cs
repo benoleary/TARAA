@@ -27,7 +27,7 @@ namespace TARAA
 
       activitiesTimer = new System.Diagnostics.Stopwatch();
       isPaused = false;
-      pauseButton.Enabled = false;
+      // pauseButton.Enabled = false;
 
       // I don't have a better way of linking all the buttons, text boxes, &
       // labels to the recorders.
@@ -179,7 +179,7 @@ namespace TARAA
                                        leaveSetupOrStartRecordingButton,
                                        nextAnimalButton,
                                        discardAnimalButton,
-                                       pauseButton,
+        // pauseButton,
                                        numberOfIntervalsInput,
                                        intervalSecondsInput,
                                        experimenterNameTextBox,
@@ -213,6 +213,7 @@ namespace TARAA
       {
         modeManager.RespondToKeyDown( keyEventArgs.KeyCode );
       }
+      keyEventArgs.Handled = true;
     }
 
     private void MainForm_KeyUp( object sender, KeyEventArgs keyEventArgs )
@@ -221,6 +222,7 @@ namespace TARAA
       {
         modeManager.RespondToKeyUp( keyEventArgs.KeyCode );
       }
+      keyEventArgs.Handled = true;
     }
 
     private void LeftButtonClick( int whichButton )
@@ -245,8 +247,8 @@ namespace TARAA
         {
           recordsFile = saveRecordFileDialog.FileName;
           recordsFileLabel.Text = ( "Recording to \"" + recordsFile + "\"" );
-        leaveSetupOrStartRecordingButton.Text
-          = ( " In setup mode.\nClick to enter timing/counting mode." );
+          leaveSetupOrStartRecordingButton.Text
+            = ( " In setup mode.\nClick to enter timing/counting mode." );
         }
       }
       else if ( inSetupMode )
@@ -421,21 +423,23 @@ namespace TARAA
         = !( anyStartKeyRadioButton.Checked );
     }
 
-    private void pauseButton_Click( object sender, EventArgs e )
-    {
-      if ( isPaused )
-      {
-        isPaused = false;
-        activitiesTimer.Start();
-        pauseButton.Text = "Click to pause";
-      }
-      else
-      {
-        isPaused = true;
-        activitiesTimer.Stop();
-        pauseButton.Text = "Click to unpause";
-      }
-    }
+    //private void pauseButton_Click( object sender, EventArgs e )
+    //{
+    //  if ( isPaused )
+    //  {
+    //    isPaused = false;
+    //    activitiesTimer.Start();
+    //    pauseButton.Text = "Click to pause";
+    //    discardAnimalButton.Enabled = false;
+    //  }
+    //  else
+    //  {
+    //    isPaused = true;
+    //    activitiesTimer.Stop();
+    //    pauseButton.Text = "Click to unpause";
+    //    discardAnimalButton.Enabled = true;
+    //  }
+    //}
 
     private void numberOfIntervalsInput_ValueChanged( object sender,
                                                       EventArgs e )

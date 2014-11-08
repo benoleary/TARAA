@@ -38,7 +38,7 @@ namespace TARAA
                         Button leaveSetupOrStartRecordingButton,
                         Button saveRecordButton,
                         Button discardRecordButton,
-                        Button pauseButton,
+                        // Button pauseButton,
                         NumericUpDown numberOfIntervalsInput,
                         TextBox intervalSecondsInput,
                         TextBox experimenterName,
@@ -51,7 +51,7 @@ namespace TARAA
       this.leaveSetupOrStartRecordingButton = leaveSetupOrStartRecordingButton;
       this.saveRecordButton = saveRecordButton;
       this.discardRecordButton = discardRecordButton;
-      this.pauseButton = pauseButton;
+      // this.pauseButton = pauseButton;
       this.numberOfIntervalsInput = numberOfIntervalsInput;
       this.intervalSecondsInput = intervalSecondsInput;
       this.experimenterName = experimenterName;
@@ -68,7 +68,7 @@ namespace TARAA
         = copySource.leaveSetupOrStartRecordingButton;
       this.saveRecordButton = copySource.saveRecordButton;
       this.discardRecordButton = copySource.discardRecordButton;
-      this.pauseButton = copySource.pauseButton;
+      // this.pauseButton = copySource.pauseButton;
       this.numberOfIntervalsInput = copySource.numberOfIntervalsInput;
       this.intervalSecondsInput = copySource.intervalSecondsInput;
       this.experimenterName = copySource.experimenterName;
@@ -83,7 +83,7 @@ namespace TARAA
     protected Button leaveSetupOrStartRecordingButton;
     protected Button saveRecordButton;
     protected Button discardRecordButton;
-    protected Button pauseButton;
+    // protected Button pauseButton;
     protected NumericUpDown numberOfIntervalsInput;
     protected TextBox intervalSecondsInput;
     protected TextBox experimenterName;
