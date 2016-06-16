@@ -22,3 +22,5 @@ C:\Users\BOL\Documents\Visual Studio 2010\Projects\TARAA\TARAA\obj\x86\Debug\TAR
 C:\Users\BOL\Documents\Visual Studio 2010\Projects\TARAA\TARAA\obj\x86\Debug\TARAA.csproj.GenerateResource.Cache
 C:\Users\BOL\Documents\Visual Studio 2010\Projects\TARAA\TARAA\obj\x86\Debug\TARAA.exe.manifest
 C:\Users\BOL\Documents\Visual Studio 2010\Projects\TARAA\TARAA\obj\x86\Debug\TARAA.application
+C:\Users\d91133\Source\Repos\TARAA\TARAA\obj\x86\Debug\TARAA.exe
+C:\Users\d91133\Source\Repos\TARAA\TARAA\obj\x86\Debug\TARAA.pdb

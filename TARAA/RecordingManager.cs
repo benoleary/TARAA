@@ -37,6 +37,7 @@ namespace TARAA
       {
         // [index of recording] [date timestamp] [animal name (auto/optional)]
         // ... [activity info]... [additional comments]
+        // More testing of Git through Visual Studio 2015!
         string lineToWrite =( "\"Index of recording\""
                               + ";\"Date timestamp\""
                               + ";\"Experimenter name\""

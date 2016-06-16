@@ -14,6 +14,7 @@ namespace TARAA
     static void Main()
     {
       //Application.EnableVisualStyles();
+      // Just checking Git through Visual Studio 2015.
       Application.SetCompatibleTextRenderingDefault( false );
       Application.Run( new MainForm() );
     }
